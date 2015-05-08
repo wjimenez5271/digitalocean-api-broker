@@ -1,0 +1,28 @@
+{
+  "name": "digitalocean-api-broker",
+  "version": "0.0.1",
+  "description": "a simple proxy to provide control over API requests to Digital Ocean",
+  "author": "William Jimenez <wjimenez5271@gmail.com>, Daniel Imfeld <daniel@danielimfeld.com>",
+  "bin": {
+  "module-name": "./bin/digitalocean-api-broker"
+},
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/wjimenez5271/digitalocean-api-broker"
+},
+  "bugs": {
+  "url": "https://github.com/wjimenez5271/digitalocean-api-broker/issues"
+},
+  "keywords": [
+  "digitalocean"
+],
+  "dependencies": {
+    "colors": "*",
+    "http-proxy": "*"
+  },
+  "preferGlobal": true,
+  "private": true,
+  "analyze": true,
+  "license": "APACHE 2.0"
+}
+  
