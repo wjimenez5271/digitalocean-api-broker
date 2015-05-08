@@ -41,9 +41,6 @@ if ( typeof do_auth == 'undefined' )
    process.exit(1);
 }
 
-var http = require('http'),
-    httpProxy = require('http-proxy');
-
 //
 // Proxy server for our Digital Ocean API requests
 //
@@ -51,7 +48,7 @@ var proxy = httpProxy.createProxyServer({});
 
 
 var server = http.createServer(function(req, res) {
-  console.log('HEADER:\n'+JSON.stringify(req.headers, null, 2) + '\nURL: '+ req.url)
+  console.log('HEADER:\n'+JSON.stringify(req.headers, null, 2) + '\nURL: '+ req.url);
   proxy.web(req, res, {
     target: 'https://api.digitalocean.com',
     agent  : https.globalAgent,
