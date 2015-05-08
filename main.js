@@ -23,6 +23,7 @@
   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+
 var https = require('https'),
     http  = require('http'),
     util  = require('util'),
@@ -30,6 +31,7 @@ var https = require('https'),
     fs    = require('fs'),
     colors = require('colors'),
     httpProxy = require('http-proxy');
+require('console-stamp')(console, '[HH:MM:ss.l]');
 
 // Get our Digital Ocean API token from an environment variable
 var do_auth = process.env.DIGITALOCEAN_TOKEN
@@ -38,17 +40,28 @@ if ( typeof do_auth == 'undefined' )
    console.log('Error: Digital Ocean environment variable not set'.red);
    process.exit(1);
 }
-//
-// Create a HTTP Proxy server with a HTTPS target
-//
-httpProxy.createProxyServer({
-  target: 'https://api.digitalocean.com',
-  agent  : https.globalAgent,
-  headers: {
-    host: 'api.digitalocean.com',
-    Authorization: 'Bearer '+do_auth
-  }
-}).listen(5050);
 
-console.log('http proxy server'.blue + ' started '.green.bold + 'on port '.blue + '8011'.yellow);
+var http = require('http'),
+    httpProxy = require('http-proxy');
 
+//
+// Proxy server for our Digital Ocean API requests
+//
+var proxy = httpProxy.createProxyServer({});
+
+
+var server = http.createServer(function(req, res) {
+  console.log('HEADER:\n'+JSON.stringify(req.headers, null, 2) + '\nURL: '+ req.url)
+  proxy.web(req, res, {
+    target: 'https://api.digitalocean.com',
+    agent  : https.globalAgent,
+    headers: {
+      host: 'api.digitalocean.com',
+      Authorization: 'Bearer '+do_auth
+    }
+  });
+});
+
+
+server.listen(5050);
+console.log('http proxy server'.blue + ' started '.green.bold + 'on port '.blue + '5050'.yellow);
